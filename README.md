@@ -13,7 +13,7 @@ ssh -i ~/.ssh/Maksim -J Maksim@35.205.192.125 10.132.0.3
 Создан config файл со следующими настройками
 ```
 ### Подключение к хосту bastion (Прямое подключение)
-<b>Host bastion
+Host bastion
 	HostName 35.205.192.125
 	User Maksim
   IdentityFile ~/.ssh/Maksim
@@ -21,12 +21,11 @@ ssh -i ~/.ssh/Maksim -J Maksim@35.205.192.125 10.132.0.3
 Host internalhost
   HostName 10.132.0.3
   ProxyJump  bastion
- </b>
  ```
 ProxyJump как я понял появилась сравнительно недавно и данный параметр упрощает настройку
 Поэтому если выполнять через ProxyCommand конфигурация будет выглядеть так
+
 ```
-<b>
 --- Подключение к хосту bastion (прямое)
 Host bastion
 	HostName 35.205.192.125
@@ -42,7 +41,6 @@ Host internalhost
   HostName 10.132.0.3
   Port 22
   ProxyCommand  ssh -i ~/.ssh/Maksim -q Maksim@35.205.192.125 nc -q0 %h %p
- </b>
  ```
 ## Конфигурация
 
