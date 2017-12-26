@@ -74,5 +74,29 @@ int IP 10.135.0.4/ext IP 35.205.192.125
 Команды gcloud для запуска startup script
 gcloud compute instances create example-instance
 --metadata-from-file startup-script=path/to/file
-или для запуска
+или для запуска по url
 --metadata startup-script-url=url
+
+В итоге
+
+-- вариант команды gcloud для запуска Startup script из файла при создании инстанса:
+
+```
+gcloud compute instances create reddit-app --boot-disk-size=10GB --image-family ubuntu-1604-lts --image-project=ubuntu-os-cloud --machine-type=g1-small --tags puma-server --restart-on-failure --metadata-from-file startup-script=C:\Maksov_Infra\startupscript.sh
+```
+Данный вариант сработал!
+
+-- вариант команды gcloud для запуска Startup script по url при создании инстанса:
+Был создан Storage bucket maksov и подлит файл startupscript.sh
+
+```
+gcloud compute instances create reddit-app --boot-disk-size=10GB --image-family ubuntu-1604-lts --image-project=ubuntu-os-cloud --machine-type=g1-small --tags puma-server --restart-on-failure --scopes storage-ro --metadata startup-script-url=https://storage.googleapis.com/maksov/startupscript.sh
+```
+
+По скрипту так и не заработало! Пробовал и  gs://maksov/startupscript.sh. Так и не понял почему
+
+## Доп задание 3
+
+Команда gcloud для добавления правила брэндмауера
+
+gcloud compute firewall-rules create default-puma-server --allow tcp:9292  --target-tags=puma-server
