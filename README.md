@@ -60,7 +60,7 @@ deploy.sh - скрипт скачивания, сборки и запуска п
 
 Конфигурация puma-server
 
-int IP 10.135.0.4/ext IP 35.205.192.125
+int IP 10.135.0.4/ext IP 35.205.163.111
 
 ## Доп задание 1
 
@@ -93,7 +93,8 @@ gcloud compute instances create reddit-app --boot-disk-size=10GB --image-family 
 gcloud compute instances create reddit-app --boot-disk-size=10GB --image-family ubuntu-1604-lts --image-project=ubuntu-os-cloud --machine-type=g1-small --tags puma-server --restart-on-failure --scopes storage-ro --metadata startup-script-url=https://storage.googleapis.com/maksov/startupscript.sh
 ```
 
-По скрипту так и не заработало! Пробовал и  gs://maksov/startupscript.sh. Так и не понял почему
+По скрипту сначала не заработало! Пробовал и  gs://maksov/startupscript.sh
+Но в итоге анализируя /var/log/syslog таже проблема с тем, что файл был создан в Windows
 
 ## Доп задание 3
 
