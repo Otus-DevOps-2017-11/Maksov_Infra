@@ -4,7 +4,7 @@
 
 ssh -i ~/.ssh/Maksim -J Maksim@35.205.192.125 10.132.0.3
 
-## Вариант решения подключения ssh по имени хоста 
+## Вариант решения подключения ssh по имени хоста
 Для подключения к серверу, находящегося в корпоративной сети (за шлюзом), по имени хоста использовался способ указания Псевдонимов (Alias) и ssh jumphost, позволяющий автоматически выполнять ssh команды на удаленных хостах по цепочке
 
 Создан config файл со следующими настройками
@@ -14,7 +14,7 @@ Host bastion
 	HostName 35.205.192.125
 	User Maksim
   	IdentityFile ~/.ssh/Maksim
-### Хост для прыжка 
+### Хост для прыжка
 Host internalhost
   HostName 10.132.0.3
   ProxyJump  bastion
@@ -28,12 +28,12 @@ Host bastion
 	HostName 35.205.192.125
 	User Maksim
 	IdentityFile ~/.ssh/Maksim
---- Хост для прыжка 
+--- Хост для прыжка
 Host internalhost
   HostName 10.132.0.3
   ProxyCommand  ssh -q bastion nc -q0 internalhost 22
 --- Вариация 2
---- Хост для прыжка 
+--- Хост для прыжка
 Host internalhost
   HostName 10.132.0.3
   Port 22
@@ -45,3 +45,59 @@ Host internalhost
 
 Хост: internalhost, внутренний IP: 10.132.0.3
 
+## Домашнее задание 06
+## Результаты работы
+
+Созданы скрипты установки приложений
+
+install_ruby.sh - скрипт установки Ruby и build-essential (список пакетов для сборки приложения)
+
+install_mongodb.sh - скрипт установки MongoDB 3.2
+
+deploy.sh - скрипт скачивания, сборки и запуска приложения puma
+
+Запуск приложения выполнен на порту 9292
+
+Конфигурация puma-server
+
+int IP 10.135.0.4/ext IP 35.205.163.111
+
+## Доп задание 1
+
+Создан скрипт startupscript.sh - скрипт, выполянющий тоже, что и скрипты install_ruby.sh, install_mongodb.sh,deploy.sh
+
+В ходе выполнения при запуске скриптов возникла проблема  запуска скрипта /bin/bash^M bad interpreter: No such file or directory
+В ходе поиска решения проблемы выявлено, что при создании скриптов в Windows редакторы добавляют символ "возврата каретки" CR/LF
+Проблема решена установкой dos2linux и перекодированием соответствующих файлов
+
+## Доп задание 2
+Команды gcloud для запуска startup script
+gcloud compute instances create example-instance
+--metadata-from-file startup-script=path/to/file
+или для запуска по url
+--metadata startup-script-url=url
+
+В итоге
+
+-- вариант команды gcloud для запуска Startup script из файла при создании инстанса:
+
+```
+gcloud compute instances create reddit-app --boot-disk-size=10GB --image-family ubuntu-1604-lts --image-project=ubuntu-os-cloud --machine-type=g1-small --tags puma-server --restart-on-failure --metadata-from-file startup-script=C:\Maksov_Infra\startupscript.sh
+```
+Данный вариант сработал!
+
+-- вариант команды gcloud для запуска Startup script по url при создании инстанса:
+Был создан Storage bucket maksov и подлит файл startupscript.sh
+
+```
+gcloud compute instances create reddit-app --boot-disk-size=10GB --image-family ubuntu-1604-lts --image-project=ubuntu-os-cloud --machine-type=g1-small --tags puma-server --restart-on-failure --scopes storage-ro --metadata startup-script-url=https://storage.googleapis.com/maksov/startupscript.sh
+```
+
+По скрипту сначала не заработало! Пробовал и  gs://maksov/startupscript.sh
+Но в итоге анализируя /var/log/syslog таже проблема с тем, что файл был создан в Windows
+
+## Доп задание 3
+
+Команда gcloud для добавления правила брэндмауера
+
+gcloud compute firewall-rules create default-puma-server --allow tcp:9292  --target-tags=puma-server
