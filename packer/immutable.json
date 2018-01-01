@@ -14,7 +14,7 @@
     {
     "type": "googlecompute",
     "project_id": "{{user `project_id`}}",
-    "image_name": "reddit-base-{{timestamp}}",
+    "image_name": "reddit-full-{{timestamp}}",
     "image_family": "{{user `image_family`}}",
     "source_image_family": "ubuntu-1604-lts",
     "zone": "europe-west1-d",
@@ -29,13 +29,13 @@
   ],
   "provisioners": [
     {
-      "type": "shell",
-      "script": "scripts/install_ruby.sh",
-      "execute_command": "sudo {{.Path}}"
+      "type": "file",
+      "source": "files/redditapp.service",
+      "destination": "/tmp/redditapp.service"
     },
     {
       "type": "shell",
-      "script": "scripts/install_mongodb.sh",
+      "script": "files/startupscript.sh",
       "execute_command": "sudo {{.Path}}"
     }
   ]
