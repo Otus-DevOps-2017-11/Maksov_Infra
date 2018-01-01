@@ -22,7 +22,7 @@ WorkingDirectory=/home/Maksim/reddit
 # The command to start Puma. This variant uses a binstub generated via
 # `bundle binstubs puma --path ./sbin` in the WorkingDirectory
 # (replace "<WD>" below)
-ExecStart=/home/Maksim/puma -b tcp://0.0.0.0:9292
+ExecStart=/usr/local/bin/puma -b tcp://0.0.0.0:9292
 
 # Variant: Use config file with `bind` directives instead:
 # ExecStart=<WD>/sbin/puma -C config.rb

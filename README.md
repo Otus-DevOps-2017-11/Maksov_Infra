@@ -112,18 +112,18 @@ gcloud compute firewall-rules create default-puma-server --allow tcp:9292  --tar
 ## Самостоятельное задание № 2
 Дополнительные опции параметризации
 
-** Описание образа - "image_description",
-** Размер и тип диска - "disk_size", "disk_type"
-** Название сети - "network"
-** Теги - "tags"
+* Описание образа - "image_description",
+* Размер и тип диска - "disk_size", "disk_type"
+* Название сети - "network"
+* Теги - "tags"
 
 ## Задание № 1*
 
-immutable.json - конфигурационный файл создания полного образа Reddit (с приложением) по принципу Immutable infrstructure
+immutable.json - конфигурационный файл создания полного образа Reddit (с приложением) по принципу Immutable infrastructure
 
 Дополниниетльные файлы
 
-redditapp.service - конфигурационный файл запуска Ruby Web-Server Puma как сервиса с настроенным рабочей категорией приложения Reddit
+redditapp.service - конфигурационный файл запуска Ruby Web-Server Puma как сервиса с рабочей категорией приложения Reddit
 
 startupscript.sh - скрипт установки Ruby, MongoDB 3.2 и деплоя приложения
 
