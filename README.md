@@ -121,7 +121,7 @@ gcloud compute firewall-rules create default-puma-server --allow tcp:9292  --tar
 
 immutable.json - конфигурационный файл создания полного образа Reddit (с приложением) по принципу Immutable infrastructure
 
-Дополниниетльные файлы
+Дополнительные файлы
 
 redditapp.service - конфигурационный файл запуска Ruby Web-Server Puma как сервиса с рабочей категорией приложения Reddit
 
@@ -138,3 +138,28 @@ startupscript.sh - скрипт установки Ruby, MongoDB 3.2 и депл
 ```
 gcloud compute instances create reddit-app-full --boot-disk-size=10GB --image-family reddit-full --image-project=infra-188917 --machine-type=g1-small --tags puma-server
 ```
+## Домашнее задание № 8 Практика IaC с использованием Terraform
+Результаты работы
+
+## Самостоятельное задание
+
+* Определены переменные
+* private_key_path - путь к приватному ключу для подключения провижинеров
+* zone - зона инстанса
+
+## Задание со звездочкой *
+
+* Описан ресурс для добавления ssh ключей нескольких пользователей
+```
+resource "google_compute_project_metadata" "sshkey1" {
+  metadata  {
+    ssh-keys  = "Maksim1:${file("C:/Users/Maksim/.ssh/Maksim.pub")}\n Maksim2:${file("C:/Users/Maksim/.ssh/Maksim.pub")}"
+  }
+```
+### Проблемы
+
+* Ключи проекта блокируются ключами инстанса.
+* Ключ appuser_web стирается при выполнении команды terraform apply, т.к. проект приводится к состоянию, описанному в terraform
+
+
+## Задание со звездочкой **

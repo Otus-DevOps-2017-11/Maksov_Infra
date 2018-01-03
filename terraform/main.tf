@@ -1,24 +1,22 @@
 provider "google" {
   version = "1.4.0"
   project = "${var.project}"
-  region  = "${var.region}"
+  region  = "${var.region}-d"
 }
 
 resource "google_compute_instance" "app" {
   name         = "reddit-app"
   machine_type = "g1-small"
-  zone         = "europe-west1-d"
+  zone         = "${var.zone}-d"
 
   # определение загрузочного диска
   boot_disk {
     initialize_params {
-      image = "{var.disk_image}"
+      image = "${var.disk_image}"
     }
   }
 
-  metadata {
-    sshKey = "Maksim1:${file(var.public_key_path)}"
-  }
+
 
   tags = ["reddit-app"]
 
@@ -35,7 +33,7 @@ resource "google_compute_instance" "app" {
     type        = "ssh"
     user        = "Maksim"
     agent       = false
-    private_key = "${file("C:/Users/Maksim/.ssh/Maksim")}"
+    private_key = "${file(var.private_key_path)}"
   }
 
   provisioner "file" {
@@ -63,6 +61,18 @@ resource "google_compute_firewall" "firewall_puma" {
   # Каким адресам разрешаем доступ
   source_ranges = ["0.0.0.0/0"]
 
-  # Правило применимо для инстансов с тегом …
-  target_tags = ["reddit-app"]
+  # Правило применимо для инстансов с тегом
+    target_tags = ["reddit-app"]
+
+}
+
+
+resource "google_compute_project_metadata" "sshkey1" {
+
+  metadata  {
+
+    ssh-keys  = "Maksim1:${file("C:/Users/Maksim/.ssh/Maksim.pub")}\n Maksim2:${file("C:/Users/Maksim/.ssh/Maksim.pub")}"
+
+  }
+
 }
