@@ -35,9 +35,12 @@ resource "google_compute_firewall" "firewall_puma" {
 }
 
 resource "google_compute_instance" "app" {
-  name         = "reddit-app"
+
+  count = "2"
+  name         = "reddit-app${count.index+1}"
   machine_type = "g1-small"
   zone         = "${var.zone}-d"
+
 
   # определение загрузочного диска
   boot_disk {
@@ -90,7 +93,7 @@ resource "google_compute_instance_group" "webservers" {
   description = "Reddit instance group"
 
   instances = [
-    "${google_compute_instance.app.self_link}"
+   "${google_compute_instance.app.*.self_link}"
   ]
 
   named_port {
