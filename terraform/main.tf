@@ -5,13 +5,9 @@ provider "google" {
 }
 
 resource "google_compute_project_metadata" "sshkey1" {
-
-  metadata  {
-
-    ssh-keys  = "Maksim:${file("C:/Users/Maksim/.ssh/Maksim.pub")}"
-
+  metadata {
+    ssh-keys = "Maksim:${file("C:/Users/Maksim/.ssh/Maksim.pub")}"
   }
-
 }
 
 resource "google_compute_firewall" "firewall_puma" {
@@ -30,17 +26,14 @@ resource "google_compute_firewall" "firewall_puma" {
   source_ranges = ["0.0.0.0/0"]
 
   # Правило применимо для инстансов с тегом
-    target_tags = ["reddit-app"]
-
+  target_tags = ["reddit-app"]
 }
 
 resource "google_compute_instance" "app" {
-
-  count = "2"
+  count        = "2"
   name         = "reddit-app${count.index+1}"
   machine_type = "g1-small"
   zone         = "${var.zone}-d"
-
 
   # определение загрузочного диска
   boot_disk {
@@ -82,8 +75,8 @@ resource "google_compute_global_address" "global_ip" {
 }
 
 resource "google_compute_http_health_check" "reddit-health" {
-  name         = "reddit-health-check"
-  port = "9292"
+  name               = "reddit-health-check"
+  port               = "9292"
   timeout_sec        = 1
   check_interval_sec = 1
 }
@@ -93,7 +86,7 @@ resource "google_compute_instance_group" "webservers" {
   description = "Reddit instance group"
 
   instances = [
-   "${google_compute_instance.app.*.self_link}"
+    "${google_compute_instance.app.*.self_link}",
   ]
 
   named_port {
@@ -102,11 +95,9 @@ resource "google_compute_instance_group" "webservers" {
   }
 
   zone = "${var.zone}-d"
-
 }
 
 resource "google_compute_backend_service" "reddit-bk" {
-
   name        = "reddit-backend"
   description = "Our company website"
   port_name   = "reddit-group-port"
@@ -119,7 +110,6 @@ resource "google_compute_backend_service" "reddit-bk" {
   }
 
   health_checks = ["${google_compute_http_health_check.reddit-health.self_link}"]
-
 }
 
 resource "google_compute_url_map" "reddit-map" {
@@ -127,18 +117,17 @@ resource "google_compute_url_map" "reddit-map" {
   description = "a description"
 
   default_service = "${google_compute_backend_service.reddit-bk.self_link}"
-
-  }
+}
 
 resource "google_compute_target_http_proxy" "http-reddit-proxy" {
-    name        = "reddit-proxy"
-    description = "a description"
-    url_map     = "${google_compute_url_map.reddit-map.self_link}"
-  }
+  name        = "reddit-proxy"
+  description = "a description"
+  url_map     = "${google_compute_url_map.reddit-map.self_link}"
+}
 
 resource "google_compute_global_forwarding_rule" "default" {
-    name       = "default-rule"
-    target     = "${google_compute_target_http_proxy.http-reddit-proxy.self_link}"
-    ip_address = "${google_compute_global_address.global_ip.address}"
-    port_range = "80"
+  name       = "default-rule"
+  target     = "${google_compute_target_http_proxy.http-reddit-proxy.self_link}"
+  ip_address = "${google_compute_global_address.global_ip.address}"
+  port_range = "80"
 }
