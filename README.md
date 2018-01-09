@@ -68,7 +68,7 @@ int IP 10.135.0.4/ext IP 35.205.163.111
 
 В ходе выполнения при запуске скриптов возникла проблема  запуска скрипта /bin/bash^M bad interpreter: No such file or directory
 В ходе поиска решения проблемы выявлено, что при создании скриптов в Windows редакторы добавляют символ "возврата каретки" CR/LF
-Проблема решена установкой dos2linux и перекодированием соответствующих файлов
+Проблема решена установкой dos2unix и перекодированием соответствующих файлов
 
 ## Доп задание 2
 Команды gcloud для запуска startup script
@@ -101,3 +101,40 @@ gcloud compute instances create reddit-app --boot-disk-size=10GB --image-family 
 Команда gcloud для добавления правила брэндмауера
 
 gcloud compute firewall-rules create default-puma-server --allow tcp:9292  --target-tags=puma-server
+
+## Домашнее задание 07 Сборка образов VM при помощи Packer
+## Результаты работы
+
+## Самостоятельное задание № 1
+Для параметризации пользовательские переменные id_project, source_image_family, machine указаны в
+разделе variables конфигурационного файла. Переменные указываются в файле variables.json. Пример заполнения variables.json.example
+
+## Самостоятельное задание № 2
+Дополнительные опции параметризации
+
+* Описание образа - "image_description",
+* Размер и тип диска - "disk_size", "disk_type"
+* Название сети - "network"
+* Теги - "tags"
+
+## Задание № 1*
+
+immutable.json - конфигурационный файл создания полного образа Reddit (с приложением) по принципу Immutable infrastructure
+
+Дополниниетльные файлы
+
+redditapp.service - конфигурационный файл запуска Ruby Web-Server Puma как сервиса с рабочей категорией приложения Reddit
+
+startupscript.sh - скрипт установки Ruby, MongoDB 3.2 и деплоя приложения
+
+Изученные материалы
+
+* https://github.com/puma/puma/blob/master/docs/systemd.md
+* https://www.freedesktop.org/wiki/Software/systemd/
+* https://losst.ru/avtozagruzka-linux#104010741090108610791072107510881091107910821072_10891082108810801087109010861074_1074_Linux
+
+## Задание № 2*
+
+```
+gcloud compute instances create reddit-app-full --boot-disk-size=10GB --image-family reddit-full --image-project=infra-188917 --machine-type=g1-small --tags puma-server
+```
