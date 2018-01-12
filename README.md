@@ -121,7 +121,7 @@ gcloud compute firewall-rules create default-puma-server --allow tcp:9292  --tar
 
 immutable.json - конфигурационный файл создания полного образа Reddit (с приложением) по принципу Immutable infrastructure
 
-Дополниниетльные файлы
+Дополнительные файлы
 
 redditapp.service - конфигурационный файл запуска Ruby Web-Server Puma как сервиса с рабочей категорией приложения Reddit
 
@@ -138,3 +138,133 @@ startupscript.sh - скрипт установки Ruby, MongoDB 3.2 и депл
 ```
 gcloud compute instances create reddit-app-full --boot-disk-size=10GB --image-family reddit-full --image-project=infra-188917 --machine-type=g1-small --tags puma-server
 ```
+## Домашнее задание № 8 Практика IaC с использованием Terraform
+Результаты работы
+
+## Самостоятельное задание
+
+* В файле переменных input.tf определены переменные - Коммит 631754e
+1. private_key_path - путь к приватному ключу для подключения провижинеров
+2. zone - зона инстанса
+
+* Отформатированы конфигурационные файлы командой terraform fmt - Коммит 631754e
+
+* terraform.tfvars.example - переменные для образца
+
+## Задание со звездочкой *
+
+* Описан ресурс для добавления ssh ключей нескольких пользователей - Коммит 631754e
+```
+resource "google_compute_project_metadata" "sshkey1" {
+  metadata  {
+    ssh-keys  = "Maksim1:${file("C:/Users/Maksim/.ssh/Maksim.pub")}\n Maksim2:${file("C:/Users/Maksim/.ssh/Maksim.pub")}"
+  }
+```
+### Проблемы
+
+* Ключи проекта блокируются ключами инстанса.
+* Ключ appuser_web стирается при выполнении команды terraform apply, т.к. проект приводится к состоянию, описанному в terraform
+
+
+## Задание со звездочкой ** - Создание балансировщика
+
+1. В конфигурационном файле описано создание HTTP балансировщика. Добавлена output переменная адреса балансировщика
+
+Алгоритм создания балансировщика
+
+Предусловия
+
+1. Создание глобального статистического адреса
+```
+resource "google_compute_global_address" "global_ip" {
+  name = "global-reddit-ip"
+}
+```
+2. Создание группы экземпляров
+```
+resource "google_compute_instance_group" "webservers" {
+  name        = "reddit-group"
+  description = "Reddit instance group"
+
+  instances = [
+    "${google_compute_instance.app.*.self_link}"
+  ]
+
+  named_port {
+    name = "reddit-group-port"
+    port = "9292"
+  }
+
+  zone = "${var.zone}-d"
+}
+```
+3. Создание проверки (Health check)
+```
+resource "google_compute_http_health_check" "reddit-health" {
+  name               = "reddit-health-check"
+  port               = "9292"
+  timeout_sec        = 1
+  check_interval_sec = 1
+}
+```
+
+* Настройка балансировщика
+
+1. Именнованные порты - reddit-group-port
+2. Создание backend-services
+```
+resource "google_compute_backend_service" "reddit-bk" {
+  name        = "reddit-backend"
+  description = "Our company website"
+  port_name   = "reddit-group-port"
+  protocol    = "HTTP"
+  timeout_sec = 10
+  enable_cdn  = false
+
+  backend {
+    group = "${google_compute_instance_group.webservers.self_link}"
+  }
+
+  health_checks = ["${google_compute_http_health_check.reddit-health.self_link}"]
+}
+```
+3. Создание url-map (используется конфигурация по умолчанию)
+
+```
+resource "google_compute_url_map" "reddit-map" {
+  name        = "urlmap"
+  description = "a description"
+
+  default_service = "${google_compute_backend_service.reddit-bk.self_link}"
+}
+```
+4. Создание target-proxy
+```
+resource "google_compute_target_http_proxy" "http-reddit-proxy" {
+  name        = "reddit-proxy"
+  description = "a description"
+  url_map     = "${google_compute_url_map.reddit-map.self_link}"
+}
+```
+5. Создание forawrding-rule
+```
+resource "google_compute_global_forwarding_rule" "default" {
+  name       = "default-rule"
+  target     = "${google_compute_target_http_proxy.http-reddit-proxy.self_link}"
+  ip_address = "${google_compute_global_address.global_ip.address}"
+  port_range = "80"
+}
+```
+
+Для создания идентичного инстанса был использован параметр ресурса count
+```
+	count = "2"
+	name         = "reddit-app${count.index+1}" - Задание имени ресурса по индексу
+```
+
+Также по мануалу рекомендуют еще оставить доступ к инстансам только от адресов балансировщика
+
+По вопросу про проблему конфигурации не совсем понял суть вопроса какого приложения  и какой конфигурации в данном случае имеется в виду: reddit-app2, или связки reddit-app1 и reddit-app2 или еще что подразумевается.
+
+Но в данном случае как я понимаю все равно существуют риск отключения двух инстансов.
+Можно было бы применить еще управляемую группу, которая восстановливала бы работспособность инстанса. Или скрипт восстановления службы создать при остановке.
