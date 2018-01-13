@@ -14,6 +14,19 @@ resource "google_compute_instance" "db" {
     network       = "default"
     access_config = {}
   }
+
+  connection {
+    type        = "ssh"
+    user        = "Maksim"
+    agent       =  false
+    private_key = "${file(var.private_key_path)}"
+
+   }
+
+   provisioner "remote-exec" {
+    script = "${path.module}/files/install_mongodb.sh"
+   }
+
 }
 
 resource "google_compute_firewall" "firewall_db" {
@@ -30,4 +43,5 @@ resource "google_compute_firewall" "firewall_db" {
 
   # порт будет доступен только для инстансов с тегом ...
   source_tags = "${var.source_tags_db}"
+
 }

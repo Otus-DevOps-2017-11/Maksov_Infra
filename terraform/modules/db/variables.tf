@@ -32,8 +32,10 @@ variable source_tags_db {
   default =  []
 }
 
-variable public_key_path {
-  description = "Path to the public key used to connect to instance"
+variable private_key_path {
+
+  description = "Path to the private key used to connect provision to instance"
+
 }
 
 variable zone {

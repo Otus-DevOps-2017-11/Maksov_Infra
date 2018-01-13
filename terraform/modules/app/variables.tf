@@ -21,7 +21,7 @@ variable source_ranges {
 }
 
 variable ports_app {
-  description = "Access port of aplication"
+  description = "Access port of application"
   default = []
 }
 
@@ -30,8 +30,11 @@ variable target_tags {
   default     = []
 }
 
-variable public_key_path {
-  description = "Path to the public key used to connect to instance"
+
+variable private_key_path {
+
+  description = "Path to the private key used to connect provision to instance"
+
 }
 
 variable zone_app {
@@ -42,4 +45,10 @@ variable zone_app {
 variable app_disk_image {
   description = "Disk image for reddit app"
   default     = "reddit-app-base"
+}
+
+variable ip_db {
+
+  description = "DB ip address"
+
 }

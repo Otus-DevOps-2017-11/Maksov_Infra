@@ -1,7 +1,7 @@
 provider "google" {
   version = "1.4.0"
   project = "${var.project}"
-  region  = "${var.region}-d"
+  region  = "${var.region}"
 }
 
 resource "google_compute_project_metadata" "sshkey" {
@@ -20,7 +20,7 @@ module "app" {
   tags_app = ["reddit-app"]
   name_firewall_app = "allow-puma-default"
   ports_app = ["9292"]
-  source_ranges = "${var.source_ranges_default}"
+  source_ranges = ["5.141.204.187/32"]
   target_tags = ["reddit-app"]
 }
 
