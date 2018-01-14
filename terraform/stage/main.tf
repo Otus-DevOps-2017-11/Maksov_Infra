@@ -23,7 +23,7 @@ module "db" {
   private_key_path = "${var.private_key_path}"
   zone            = "${var.zone_default}"
   name_db       = "reddit-db"
-  db_disk_image   = "ubuntu-1604-lts"
+  db_disk_image   = "reddit-db-base"
   machine_type_db = "${var.machine_type_default}"
   tags_db = ["reddit-db"]
   name_firewall_db = "allow-mongo-default"
@@ -38,7 +38,7 @@ module "app" {
   private_key_path = "${var.private_key_path}"
   zone_app            = "${var.zone_default}"
   name_app = "reddit-app"
-  app_disk_image  = "ubuntu-1604-lts"
+  app_disk_image  = "reddit-app-base"
   machine_type_app = "${var.machine_type_default}"
   tags_app = ["reddit-app"]
   name_firewall_app = "allow-puma-default"

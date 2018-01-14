@@ -26,17 +26,13 @@ resource "google_compute_instance" "app" {
 
    }
 
-   provisioner "file" {
-     source      = "${path.module}/files/puma.service"
-     destination = "/tmp/puma.service"
-   }
-
-   provisioner "remote-exec" {
-    script = "${path.module}/files/install_ruby.sh"
-   }
-
-
-
+  provisioner "remote-exec" {
+    inline = [
+      "sudo bash -c 'echo DATABASE_URL=${var.ip_db} >> /etc/bash.profile'",
+      "export DATABASE_URL=${var.ip_db}",
+      "sudo systemctl restart puma"
+    ]
+  }
 
 }
 

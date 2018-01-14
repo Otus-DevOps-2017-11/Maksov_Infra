@@ -1,3 +1,11 @@
+data "template_file" "mongod" {
+
+  template = "${file("${path.module}/files/mongod.tpl")}"
+
+  vars {
+    bind_ip = "0.0.0.0"
+  }
+}
 resource "google_compute_instance" "db" {
   name         = "${var.name_db}"
   machine_type = "${var.machine_type_db}"
@@ -23,11 +31,24 @@ resource "google_compute_instance" "db" {
 
    }
 
+   provisioner "file" {
+    source      = "${data.template_file.mongod.rendered}"
+    destination = "/home/Maksim/mongod.conf"
+
+   }
+
    provisioner "remote-exec" {
-    script = "${path.module}/files/install_mongodb.sh"
+     script = "${path.module}/files/conf_mongodb.sh"
    }
 
 }
+
+
+
+
+
+
+
 
 resource "google_compute_firewall" "firewall_db" {
   name    = "${var.name_firewall_db}"

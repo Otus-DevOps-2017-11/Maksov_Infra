@@ -297,6 +297,57 @@ terraform {
 При запуске terraform apply происходит блокировка state файла, создается lock файл и выполнить применение конфигурации из другого окружения невозможно.
 
 ## Задание со звездочкой **
+
+Используем template_file для рендеринга конфигурации MongoDB с ip 0.0.0.0 для прослушивания. На внутренем ip сети 10.136.0.0 не заработало. Ошибка Cycle. Как понял срендерит он после создания инстанса. Думал может потом можно выполнить провиженеры. Если так, не разобрался как.
+```
+data "template_file" "mongod" {
+
+  template = "${file("${path.module}/files/mongod.tpl")}"
+
+  vars {
+    bind_ip = "0.0.0.0"
+  }
+}
+
+используемые провиженеры
+
+connection {
+	type        = "ssh"
+	user        = "Maksim"
+	agent       =  false
+	private_key = "${file(var.private_key_path)}"
+
+ }
+
+ provisioner "file" {
+	source      = "${data.template_file.mongod.rendered}"
+	destination = "/tmp/mongod.conf"
+
+ }
+
+ provisioner "remote-exec" {
+	 script = "${path.module}/files/conf_mongodb.sh"
+ }
+
 ```
 
+Для добавления  IP адреса в переменную DATABASE_URL создаем output переменную инстанса db
+
+И провиженором выполняем скрипты по экспорту переменной и перезапуску WebServer
+
+Но самка связка так и не заработала. P.S. Технологию понял, но полностью не заработала
+
+## Реестр модулей
+
+Подключение модуля sweetops успешно. Бакеты созданы
+
+```
+Apply complete! Resources: 2 added, 0 changed, 0 destroyed.
+
+Outputs:
+
+storage-bucket_url = [
+    gs://storage-maksov-1,
+    gs://storage-maksov-2
+]
 ```

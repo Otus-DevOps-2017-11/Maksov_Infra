@@ -1,4 +1,4 @@
-ls[Unit]
+[Unit]
 Description=Puma HTTP Server
 After=network.target
 
