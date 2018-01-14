@@ -1,8 +1,30 @@
-#Example set variables
+#Example set main variables
 project = "your_project_id"
+public_key_path = "Path to public ssh key"
+private_path_key = "Path to private ssh key"
+user_ssh=appuser # Name of ssh user for connect to instance
 
-public_key_path = "C:/Users/Maksim/.ssh/Maksim.pub"
+#Example set module db variables
 
-private_key_path = "C:/Users/Maksim/.ssh/Maksim"
+private_key_path = "$~/.ssh/appuser" # Path to private key for ssh access to instance
+zone            = "europe-west1-d" # Zone instance
+name_db       = "reddit-db"  # Name DB instanse
+db_disk_image   = "reddit-db-base" # Bootable Image disk
+machine_type_db = "$g1-small"  # Machine type - preset number of vCPUs and amount of memory, f1-micro (Memory: 0,6Gb, vCPUs:1 sharing), g1-small (Memory: 1,7Gb), n1-standart-2
+tags_db = ["reddit-db"] # Tags of instanse, Type: list
+name_firewall_db = "allow-mongo-default" # Name of creating firewall rule
+firewall_db_ports     =  ["27017"] # Access port db, Type: list,
+target_tags_db = ["reddit-db"] # Target tags. A list of instance tags. The rule in question is assigned to any instances in the network with any of the tags and does not apply to instances without one.
+source_tags_db = ["reddit-app"] # Target tags of instanse, If source tags are specified, the firewall rule matches ingress connections with a source IP address that matches the primary IP address of an instance with that tag.
 
-disk_image = "reddit- base"
+#Example set module app variables
+private_key_path = "${var.private_key_path}"
+zone_app            = "${var.zone_default}" #Zone app instance.
+name_app = "reddit-app" # Name of app instanse
+app_disk_image  = "reddit-app-base" # Bootable Image disk
+machine_type_app = "${var.machine_type_default}"  # Machine type - preset number of vCPUs and amount of memory, f1-micro (Memory: 0,6Gb, vCPUs:1 sharing), g1-small (Memory: 1,7Gb), n1-standart-2
+tags_app = ["reddit-app"] # Tags of instance, Type:list
+name_firewall_app = "allow-puma-default" # Name of firewall rule
+ports_app = ["9292"]  # Access port app, Type:list
+source_ranges = "${var.source_ranges_default}" #Default sorge range ["0.0.0.0/0"], Type:list
+target_tags = ["reddit-app"] # Target tags. A list of instance tags. The rule in question is assigned to any instances in the network with any of the tags and does not apply to instances without one.
