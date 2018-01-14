@@ -282,7 +282,7 @@ resource "google_compute_global_forwarding_rule" "default" {
 app - для ресурса app: name, machine_type,tags, для ресурса firewall_app: name, ports, source_ranges, target_tags, source_ranges
 db - для ресурса db: name, machine_type, tags, для ресурса firewall_db: name, ports, target_tags, sourse_tags
 
-теперь можно использовать код для любого приложения по данной архитектуре. app-db(MongoDB, PostgreSQL, MySQL и т.д.) как я понял
+теперь можно использовать код для любого приложения по данной архитектуре. app-db(MongoDB, PostgreSQL, MySQL и т.д.) как я понял+повторное использование кода
 
 ## Задание со звездочкой *
 ```
