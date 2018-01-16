@@ -14,7 +14,7 @@
     {
     "type": "googlecompute",
     "project_id": "{{user `project_id`}}",
-    "image_name": "reddit-full-{{timestamp}}",
+    "image_name": "{{user `image_family`}}-{{timestamp}}",
     "image_family": "{{user `image_family`}}",
     "source_image_family": "ubuntu-1604-lts",
     "zone": "europe-west1-d",

@@ -268,3 +268,86 @@ resource "google_compute_global_forwarding_rule" "default" {
 
 Но в данном случае как я понимаю все равно существуют риск отключения двух инстансов.
 Можно было бы применить еще управляемую группу, которая восстановливала бы работспособность инстанса. Или скрипт восстановления службы создать при остановке.
+
+## Домашняя работа № 9
+
+Ход выполенения
+
+В результате выполнения работы были созданы и изучены принципы создания модулей в terrraform, создания окружения и работы в команде
+
+Самостоятельное задание
+
+Для повторного переиспользования кода и реализации модели base-app-service
+для модулей app, db параметрзируем дополнительно следующие параметры:
+app - для ресурса app: name, machine_type,tags, для ресурса firewall_app: name, ports, source_ranges, target_tags, source_ranges
+db - для ресурса db: name, machine_type, tags, для ресурса firewall_db: name, ports, target_tags, sourse_tags
+
+теперь можно использовать код для любого приложения по данной архитектуре. app-db(MongoDB, PostgreSQL, MySQL и т.д.) как я понял+повторное использование кода
+
+## Задание со звездочкой *
+```
+terraform {
+  backend "gcs" {
+    bucket = "maksov"
+    path = "/terraform/terraform.tfstate"
+    project = "infra-188917"
+  }
+}
+```
+При запуске terraform apply происходит блокировка state файла, создается lock файл и выполнить применение конфигурации из другого окружения невозможно.
+
+## Задание со звездочкой **
+
+Используем template_file для рендеринга конфигурации MongoDB с ip 0.0.0.0 для прослушивания. На внутренем ip сети 10.136.0.0 не заработало. Ошибка Cycle. Как понял срендерит он после создания инстанса. Думал может потом можно выполнить провиженеры. Если так, не разобрался как.
+```
+data "template_file" "mongod" {
+
+  template = "${file("${path.module}/files/mongod.tpl")}"
+
+  vars {
+    bind_ip = "0.0.0.0"
+  }
+}
+
+используемые провиженеры
+
+connection {
+	type        = "ssh"
+	user        = "Maksim"
+	agent       =  false
+	private_key = "${file(var.private_key_path)}"
+
+ }
+
+ provisioner "file" {
+	source      = "${data.template_file.mongod.rendered}"
+	destination = "/tmp/mongod.conf"
+
+ }
+
+ provisioner "remote-exec" {
+	 script = "${path.module}/files/conf_mongodb.sh"
+ }
+
+```
+
+Для добавления  IP адреса в переменную DATABASE_URL создаем output переменную инстанса db
+
+И провиженором выполняем скрипты по экспорту переменной и перезапуску WebServer
+
+Но самка связка так и не заработала. P.S. Технологию понял, но полностью не заработала
+
+## Реестр модулей
+
+Подключение модуля sweetops успешно. Бакеты созданы
+
+```
+Apply complete! Resources: 2 added, 0 changed, 0 destroyed.
+
+Outputs:
+
+storage-bucket_url = [
+    gs://storage-maksov-1,
+    gs://storage-maksov-2
+]
+```
