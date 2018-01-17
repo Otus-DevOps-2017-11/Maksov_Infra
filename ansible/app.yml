@@ -1,0 +1,24 @@
+- name: Configure app host
+  hosts: app
+  tags: app-tag
+  become: true
+  vars:
+    db_host: 10.132.0.3
+  tasks:
+     - name: Add unit file for Puma
+       copy:
+        src: files/puma.service
+        dest: /etc/systemd/system/puma.service
+        notify: reload puma
+    - name: Add config for DB connection
+        template:
+          src: templates/db_config.j2
+          dest: /home/Maksim/db_config
+          owner: Maksim
+          group: Maksim
+    - name: enable puma
+         systemd: name=puma enabled=yes
+  handlers:
+    - name: reload puma
+      become: true
+      systemd: name=puma state=reloaded
