@@ -420,3 +420,17 @@ all:
 
 Как понял связано с окружением. Модуль не может найти комманду. Пробовал напряму указать /usr/bin/ruby. Тож не зафурычило.
 ```
+
+## Домашнее задание 11 Деплой и управление конфигурацией с Ansible
+
+Ход выполенения
+
+-- Создание плейбука настройки инстанса MongoDB, инстанса приложеня, дплоя приложения (tasks: Change mongo config file, Add unit file for Puma, Enable puma, Fetch the latest version, Bundle Install, handlers: restart mongod, reload puma, restart puma)
+
+Результат: reddit_app.yml - Playbook -  один сценарий с тегами для настройки БД, деплоя и настройки приложения
+
+-- Один Playbook, несколько сценариев
+
+Результат: reddit-app2.yml - Playbook с несколькими сценариями (Configure MongoDB, Configure environment, Deploy Application)
+
+-- Несколько Playbooks
