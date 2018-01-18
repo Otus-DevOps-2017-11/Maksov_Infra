@@ -4,7 +4,7 @@
   become: true
   vars:
     app_list:
-      - - ruby
+      - - ruby-bundler
         - ruby-full
         - build-essential
   tasks:
