@@ -3,6 +3,8 @@ project = "your_project_id"
 public_key_path = "Path to public ssh key"
 private_path_key = "Path to private ssh key"
 user_ssh=appuser # Name of ssh user for connect to instance
+source_ranges_default=["0.0.0.0/0"] #"Default source ranges"
+
 
 #Example set module db variables
 

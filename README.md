@@ -351,3 +351,72 @@ storage-bucket_url = [
     gs://storage-maksov-2
 ]
 ```
+
+## Домашняя работа № 10 Знакомство с Ansible
+
+Создание inventory файла:
+```
+[app]
+reddit-app ansible_host=35.205.69.221
+
+[db]
+dbserver ansible_host=35.195.213.181
+```
+
+Создание inventory в формате YML
+
+```
+all:
+ children:
+  app:
+   hosts:
+    reddit-app:
+     ansible_host:
+      35.205.69.221
+  db:
+   hosts:
+    dbserver:
+     ansible_host:
+      35.195.213.181
+```
+
+## Задание со *
+
+Создание inventory в формате json
+
+```
+{
+    "all": {
+        "children": {
+            "app",
+            "db"
+        },
+
+    },
+    "app": {
+        "hosts": {
+            "reddit-app":{
+            "ansible_host":"35.195.213.181"
+          }
+        }
+    },
+    "db": {
+        "hosts": {
+            "dbserver": {
+           "ansible_host":"35.205.69.221"
+     }
+
+        }
+    }
+}
+```
+
+В ходе домашнего задания изучены принципы работы с модулями
+Использованы модули command, shell, github
+
+```
+Единственное выполнение комманд ruby -v, bundle -v, systemctl status mongod не отработали. reddit-app | FAILED | rc=2 >>
+[Errno 2] No such file or directory
+
+Как понял связано с окружением. Модуль не может найти комманду. Пробовал напряму указать /usr/bin/ruby. Тож не зафурычило.
+```
