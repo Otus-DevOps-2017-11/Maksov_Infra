@@ -4,10 +4,13 @@
   become: true
   vars:
     app_list:
-      - - ruby-full
-        - ruby-bundler
+      - - ruby
+        - ruby-full
         - build-essential
   tasks:
+  - name: APT Update
+    apt:
+      update_cache: yes
   - name: Install cycle apt
     apt: "name={{ item }} state=present"
     with_items:
