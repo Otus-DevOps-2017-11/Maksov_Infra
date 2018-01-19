@@ -10,7 +10,7 @@ tasks:
      dest: /etc/systemd/system/puma.service
     notify: reload puma
   - name: Add config for DB connection
-    template:S
+    template:
      src: db_config.j2
      dest: /home/Maksim/db_config
      owner: Maksim
