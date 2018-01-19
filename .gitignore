@@ -5,3 +5,4 @@ packer/variables.json
 *.tfvars
 .terraform/
 ansible/account.json
+/terraform/stage2
