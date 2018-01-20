@@ -490,3 +490,29 @@ reddit-db | SUCCESS => {
 
 - http://docs.ansible.com/ansible/latest/intro_dynamic_inventory.html
 - https://www.jeffgeerling.com/blog/creating-custom-dynamic-inventories-ansible
+
+## Домашнее задание № 12 Ansible: работа с ролями и окружениями
+Ход выполнения
+- создание ролей app и db и их применение
+-  создание окружений stage
+- работа с коммьюнити ролями (jdauphant.nginx)
+
+При работе возникла ошибка. Думал. Думал. В итоге оказалось, что файлы то при чеке не создаются, чтоб создать линки. При непосредственном выполнении все ок.
+```
+failed: [reddit-app] (item={'value': [u'listen 80', u'server_name "reddit"', u'location / { http://127.0.0.1:9292; }'], 'key': u'default'}) => {"changed": false, "item": {"key": "default", "value": ["listen 80", "server_name \"reddit\"", "location / { http://127.0.0.1:9292; }"]}, "msg": "src file does not exist, use \"force=yes\" if you really want to create the link: /etc/nginx/sites-available/default.conf", "path": "/etc/nginx/sites-enabled/default.conf", "src": "/etc/nginx/sites-available/default.conf", "state": "absent"}
+```
++ ошибка отсутсвия python-apt. Просто вручную установил на app host.
+
+- Задание со * Динамический инвентори для окружений
+
+Используется GCE Dynamic Inventory
+
+Создан скрипт установки параметров в зависимости от окружения - ansible\set_env.sh
+
+./set_env.sh stage | prod - указываем окружение. скрипт применяет настройки в зависимости от заданного окружения.
+
+Также для проверки задал для инстансов теги prod_app, prod_db, stage_db, stage_app. Dynamic Inventory формирует группы по тэгам следующим образом tag_prod_app, tag_stage_app и т.д.
+
+Также в ролях group_vars поменял в соответствии dynamic inventory имена файлов по группам.
+
+ В итоге возникла проблема запускать playbook на группы хостов в зависимости от окружений. Обратился к best practicies. А вся идея уже описана=) Решил подцеплять файлик с именование хостов.

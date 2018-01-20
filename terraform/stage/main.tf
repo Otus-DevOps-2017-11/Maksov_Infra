@@ -7,7 +7,7 @@ provider "google" {
 terraform {
   backend "gcs" {
     bucket = "maksov"
-    path = "/terraform/terraform.tfstate"
+    prefix = "terraform/stage/terraform.tfstate"
     project = "infra-188917"
   }
 }
@@ -25,7 +25,7 @@ module "db" {
   name_db       = "reddit-db"
   db_disk_image   = "reddit-db-base"
   machine_type_db = "${var.machine_type_default}"
-  tags_db = ["reddit-db"]
+  tags_db = ["reddit-db", "stage-db"]
   name_firewall_db = "allow-mongo-default"
   firewall_db_ports     =  ["27017"]
   target_tags_db = ["reddit-db"]
@@ -40,12 +40,11 @@ module "app" {
   name_app = "reddit-app"
   app_disk_image  = "reddit-app-base"
   machine_type_app = "${var.machine_type_default}"
-  tags_app = ["reddit-app"]
+  tags_app = ["reddit-app","stage-app","default-allow-http"]
   name_firewall_app = "allow-puma-default"
   ports_app = ["9292"]
   source_ranges = "${var.source_ranges_default}"
   target_tags = ["reddit-app"]
-  ip_db  = "${module.db.db_external_ip}"
 }
 
 module "vpc" {
