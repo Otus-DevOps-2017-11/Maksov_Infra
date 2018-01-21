@@ -8,7 +8,7 @@ variable machine_type_app {
 
 variable tags_app {
   description = "instance's tags"
-  default = []
+  default     = []
 }
 
 variable name_firewall_app {
@@ -22,7 +22,7 @@ variable source_ranges {
 
 variable ports_app {
   description = "Access port of application"
-  default = []
+  default     = []
 }
 
 variable target_tags {
@@ -30,16 +30,12 @@ variable target_tags {
   default     = []
 }
 
-
 variable private_key_path {
-
   description = "Path to the private key used to connect provision to instance"
-
 }
 
 variable zone_app {
   description = "Zone"
-
 }
 
 variable app_disk_image {
