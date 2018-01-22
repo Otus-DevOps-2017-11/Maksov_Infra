@@ -1,6 +1,6 @@
 terraform_dir = $(shell find . -type f -name "*.tf" -exec dirname {} \;|sort -u)
 
-.PHONY: test fmt
+.PHONY: terraform_tflint terraform_ansible
 
 default: test
 
