@@ -1,0 +1,15 @@
+language: bash
+python:
+  - "3.6"
+before_install:
+  - wget "https://releases.hashicorp.com/terraform/0.11.2/terraform_0.11.2_linux_amd64.zip" -O /tmp/terraform.zip
+  - sudo unzip -d /usr/bin/ /tmp/terraform.zip
+  - wget "https://github.com/wata727/tflint/releases/download/v0.5.4/tflint_darwin_amd64.zip" -O /tmp/tflint.zip
+  - sudo unzip -d /usr/bin/ /tmp/tflint.zip
+  - wget "https://releases.hashicorp.com/packer/1.1.3/packer_1.1.3_linux_amd64.zip" -O /tmp/packer.zip
+  - sudo unzip -d /usr/bin/ /tmp/packer.zip
+  - git clone https://github.com/willthames/ansible-lint
+  - export PYTHONPATH=$PYTHONPATH:`pwd`/ansible-lint/lib
+  - export PATH=$PATH:`pwd`/ansible-lint/bin
+script:
+  - make test 
