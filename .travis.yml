@@ -11,8 +11,7 @@ before_install:
   - git clone https://github.com/willthames/ansible-lint
   - export PYTHONPATH=$PYTHONPATH:`pwd`/ansible-lint/lib
   - export PATH=$PATH:`pwd`/ansible-lint/bin
-  - terraform_example = $(shell find . -type f -name "*.tfvars.example" -exec dirname {} \;|sort -u)
-  - @for m in $(modules); do (cp "$$m/terraform.tfvars.example" terraform.tfvars)
+  - make example_files
 script:
   - make terraform_validate
   -terraform_flint
