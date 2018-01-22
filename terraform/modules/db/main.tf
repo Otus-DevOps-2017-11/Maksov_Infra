@@ -23,32 +23,7 @@ resource "google_compute_instance" "db" {
     access_config = {}
   }
 
-  connection {
-    type        = "ssh"
-    user        = "Maksim"
-    agent       =  false
-    private_key = "${file(var.private_key_path)}"
-
-   }
-
-   provisioner "file" {
-    source      = "${data.template_file.mongod.rendered}"
-    destination = "/home/Maksim/mongod.conf"
-
-   }
-
-   provisioner "remote-exec" {
-     script = "${path.module}/files/conf_mongodb.sh"
-   }
-
 }
-
-
-
-
-
-
-
 
 resource "google_compute_firewall" "firewall_db" {
   name    = "${var.name_firewall_db}"

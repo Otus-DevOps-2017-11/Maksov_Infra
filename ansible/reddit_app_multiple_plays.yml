@@ -1,0 +1,59 @@
+- name: Configure MongoDB
+  hosts: db
+  tags: db-tag
+  become: true
+  vars:
+    mongo_bind_ip: 0.0.0.0
+  tasks:
+    - name: Change mongo config file
+      template:
+        src: templates/mongod.conf.j2
+        dest: /etc/mongod.conf
+        mode: 0644
+      notify: restart mongod
+  handlers:
+    - name: restart mongod
+      service: name=mongod state=restarted
+- name: Configure app host
+  hosts: app
+  tags: app-tag
+  become: true
+  vars:
+    db_host: 10.132.0.6
+  tasks:
+     - name: Add unit file for Puma
+       copy:
+        src: files/puma.service
+        dest: /etc/systemd/system/puma.service
+        notify: reload puma
+    - name: Add config for DB connection
+      template:
+        src: templates/db_config.j2
+        dest: /home/Maksim/db_config
+        owner: Maksim
+        group: Maksim
+    - name: enable puma
+      systemd: name=puma enabled=yes
+  handlers:
+    - name: reload puma
+      become: true
+      systemd: name=puma state=reloaded
+- name: Deploy application
+  hosts: app
+  tags: deploy-tag
+  become: true
+  tasks:
+      - name: Fetch the latest version of application code
+        git:
+          repo: 'https://github.com/Otus-DevOps-2017-11/reddit.git'
+          dest: /home/Maksim/reddit
+          version: monolith
+        notify: restart puma
+      - name: Bundle install
+        bundler:
+          state: present
+          chdir: /home/Maksim/reddit
+  handlers:
+    - name: restart puma
+      become: true
+      systemd: name=puma state=restarted

@@ -1,0 +1,17 @@
+- name: Deploy App
+  hosts: app
+  tasks:
+    - name: Fetch the latest version of application code
+      git:
+        repo: 'https://github.com/Otus-DevOps-2017-11/reddit.git'
+        dest: /home/Maksim/reddit
+        version: monolith
+      notify: restart puma
+    - name: bundle install
+      bundler:
+        state: present
+        chdir: /home/Maksim/reddit
+  handlers:
+   - name: restart puma
+     become: true
+     systemd: name=puma state=restarted

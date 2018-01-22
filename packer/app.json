@@ -13,6 +13,7 @@
     "builders": [
         {
             "type": "googlecompute",
+	          "account_file": "account.json",
             "project_id": "{{user `project_id`}}",
             "machine_type": "{{user `machine_type`}}",
             "zone": "{{user `zone`}}",
@@ -29,15 +30,8 @@
 
     "provisioners": [
         {
-          "type": "file",
-          "source": "files/puma.service",
-          "destination": "/tmp/puma.service"
-        },
-
-        {
-            "type": "shell",
-            "script": "{{template_dir}}/scripts/install_ruby.sh",
-            "execute_command": "sudo {{.Path}}"
-        }
+            "type": "ansible",
+            "playbook_file": "scripts/packer_app.yml"
+          }
     ]
 }

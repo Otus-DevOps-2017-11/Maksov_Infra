@@ -1,24 +1,24 @@
 {
     "all": {
         "children": {
-            "app", 
+            "app",
             "db"
-        }, 
+        },
 
-    }, 
-    "app": { 
+    },
+    "app": {
         "hosts": {
             "reddit-app":{
-            "ansible_host":"35.195.213.181"
+            "ansible_host":"35.195.85.229"
           }
         }
-    }, 
-    "db": { 
+    },
+    "db": {
         "hosts": {
             "dbserver": {
-           "ansible_host":"35.205.69.221"
+            "ansible_host":"35.189.203.142"
      }
-                 
-        } 
+
+        }
     }
 }

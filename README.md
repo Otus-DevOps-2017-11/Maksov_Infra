@@ -420,3 +420,73 @@ all:
 
 Как понял связано с окружением. Модуль не может найти комманду. Пробовал напряму указать /usr/bin/ruby. Тож не зафурычило.
 ```
+
+## Домашнее задание 11 Деплой и управление конфигурацией с Ansible
+
+Ход выполенения
+
+-- Создание плейбука настройки инстанса MongoDB, инстанса приложеня, дплоя приложения (tasks: Change mongo config file, Add unit file for Puma, Enable puma, Fetch the latest version, Bundle Install, handlers: restart mongod, reload puma, restart puma)
+
+Результат: reddit_app.yml - Playbook -  один сценарий с тегами для настройки БД, деплоя и настройки приложения
+
+-- Один Playbook, несколько сценариев
+
+Результат: reddit-app2.yml - Playbook с несколькими сценариями (Configure MongoDB, Configure environment, Deploy Application)
+
+-- Несколько Playbooks
+
+-- Сборка образов Packer с помощью Playbooks (Playbook: packer/scripts/packer_app.yml, packer/scripts/packer_db.yml). Использованы циклы.
+
+В ходе выполнения изучена работа с модулем apt  и циклы в ansible
+
+но применение apt не увенчалось успехом. возникала ошибка при сборке пакером. Все что нашел перепробовал. Не получилось запустить. В итоге модулем command собирал.
+
+
+### Сборка app. Одна из ошибок
+```
+{"changed": true, "cmd": ["apt", "update"], "delta": "0:00:00.043185", "end": "2018-01-17 21:02:28.671300", "msg": "non-zero return code", "rc": 100, "start": "2018-01-17 21:02:28.628115", "stderr": "\nWARNING: apt does not have a stable CLI interface. Use with caution in scripts.\n\nW: chmod 0700 of directory /var/lib/apt/lists/partial failed - SetupAPTPartialDirectory (1: Operation not permitted)\nE: Could not open lock file /var/lib/apt/lists/lock - open (13: Permission denied)\nE: Unable to lock directory /var/lib/apt/lists/\nW: Problem unlinking the file /var/cache/apt/pkgcache.bin - RemoveCaches (13: Permission denied)\nW: Problem unlinking the file /var/cache/apt/srcpkgcache.bin - RemoveCaches (13: Permission denied)", "stderr_lines": ["", "WARNING: apt does not have a stable CLI interface. Use with caution in scripts.", "", "W: chmod 0700 of directory /var/lib/apt/lists/partial failed - SetupAPTPartialDirectory (1: Operation not permitted)", "E: Could not open lock file /var/lib/apt/lists/lock - open (13: Permission denied)", "E: Unable to lock directory /var/lib/apt/lists/", "W: Problem unlinking the file /var/cache/apt/pkgcache.bin - RemoveCaches (13: Permission denied)", "W: Problem unlinking the file /var/cache/apt/srcpkgcache.bin - RemoveCaches (13: Permission denied)"], "stdout": "Reading package lists...", "stdout_lines": ["Reading package lists..."]}
+    googlecompute:      to retry, use: --limit @/root/ansible/scripts/packer_ap
+```
+
+### Сборка db. Ошибка
+
+```
+ googlecompute: fatal: [default]: FAILED! => {"changed": false, "cmd": "/usr/bin/apt-key adv --keyserver keyserver.ubuntu.com --recv EA312927", "msg": "Error fetching key EA312927 from keyserver: keyserver.ubuntu.com", "rc": 1, "stderr": "gpg: requesting key EA312927 from hkp server keyserver.ubuntu.com\ngpg: key EA312927: public key \"MongoDB 3.2 Release Signing Key <packaging@mongodb.com>\" imported\ngpg: Total number processed: 1\ngpg:               imported: 1  (RSA: 1)\ngpg: no writable keyring found: eof\ngpg: error reading `[stdin]': general error\ngpg: import from `[stdin]' failed: general error\ngpg: Total number processed: 0\n", "stderr_lines": ["gpg: requesting key EA312927 from hkp server keyserver.ubuntu.com", "gpg: key EA312927: public key \"MongoDB 3.2 Release Signing Key <packaging@mongodb.com>\" imported", "gpg: Total number processed: 1", "gpg:               imported: 1  (RSA: 1)", "gpg: no writable keyring found: eof", "gpg: error reading `[stdin]': general error", "gpg: import from `[stdin]' failed: general error", "gpg: Total number processed: 0"], "stdout": "Executing: /tmp/tmp.N4HCZS81kL/gpg.1.sh --keyserver\nkeyserver.ubuntu.com\n--recv\nEA312927\n", "stdout_lines": ["Executing: /tmp/tmp.N4HCZS81kL/gpg.1.sh --keyserver", "keyserver.ubuntu.com", "--recv", "EA312927"]}
+ ```
+
+
+-- Задание со *  Dynamic inventory
+
+Для Dynamic Inventory используется GCE dynamic inventory plugin script gce.py, gce.ini. Скрипт выполняет запрос GCE и передает Ansible информацию какими серверами необходимо управлять.
+
+Настройка
+
+gce.ini
+
+```
+gce_service_account_email_address = # Service account email found in ansible json file
+gce_service_account_pem_file_path = # Path to ansible service account json file
+gce_project_id = # Your GCE project name
+
+```
+
+Проверка работоспособности
+
+./gce.py --list > inventory_dynamic.json
+
+ansible all -i ./gce.py -m ping
+```
+reddit-app | SUCCESS => {
+    "changed": false,
+    "ping": "pong"
+}
+reddit-db | SUCCESS => {
+    "changed": false,
+    "ping": "pong"
+}
+```
+
+Материалы:
+
+- http://docs.ansible.com/ansible/latest/intro_dynamic_inventory.html
+- https://www.jeffgeerling.com/blog/creating-custom-dynamic-inventories-ansible
