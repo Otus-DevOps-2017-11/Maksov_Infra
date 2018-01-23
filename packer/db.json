@@ -29,8 +29,8 @@
     ],
     "provisioners": [
         {
-            "type": "ansible",
-            "playbook_file": "scripts/packer_db.yml"
+            "type": "shell",
+            "script": "scripts/install_mongodb.sh"
         }
     ]
 }
