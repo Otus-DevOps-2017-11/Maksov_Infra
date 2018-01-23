@@ -7,6 +7,8 @@ default: test
 
 packer_validate:
 	cd ${GIT_DIR}/packer
+	pwd
+	ls -lha
 	packer validate -var-file=${GIT_DIR}/packer/variables.json.examples app.json
 	packer validate -var-file=${GIT_DIR}/packer/variables.json.examples db.json
 	packer validate -var-file=${GIT_DIR}/packer/variables.json.examples immutable.json
