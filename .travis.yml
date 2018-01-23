@@ -11,6 +11,6 @@ before_install:
   - git clone https://github.com/willthames/ansible-lint
   - export PYTHONPATH=$PYTHONPATH:`pwd`/ansible-lint/lib
   - export PATH=$PATH:`pwd`/ansible-lint/bin
-  - pwd
+  - touch ~/.ssh/appuser && touch ~/.ssh/appuser.pub
 script:
   - make terraform_validate
