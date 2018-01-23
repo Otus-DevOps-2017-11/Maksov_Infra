@@ -7,6 +7,7 @@ before_install:
   - terraform -v
   - wget "https://github.com/wata727/tflint/releases/download/v0.5.4/tflint_darwin_amd64.zip"
   - sudo unzip tflint_darwin_amd64.zip
+  - sudo mkdir -p /usr/local/tflint/bin
   - export PATH=/usr/local/tflint/bin:$PATH
   - install tflint /usr/local/tflint/bin
   - tflint -v
