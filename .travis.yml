@@ -16,4 +16,4 @@ before_install:
   - touch ~/.ssh/appuser && touch ~/.ssh/appuser.pub
 script:
   - make terraform_validate
-  - make packer_valide
+  - make packer_validate
