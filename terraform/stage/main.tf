@@ -45,7 +45,6 @@ module "app" {
   ports_app = ["9292"]
   source_ranges = "${var.source_ranges_default}"
   target_tags = ["reddit-app"]
-  ip_db  = "${module.db.db_external_ip}"
 
 }
 

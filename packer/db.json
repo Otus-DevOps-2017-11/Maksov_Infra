@@ -26,15 +26,13 @@
             "ssh_username": "Maksim"
         }
     ],
+
     "provisioners": [
         {
             "type": "shell",
-<<<<<<< HEAD
             "scripts": "scripts/install_mongodb.sh",
             "execute_command": "sudo {{.Path}}"
-=======
-            "script": "scripts/install_mongodb.sh"
->>>>>>> master
+
         }
     ]
 }
