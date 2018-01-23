@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/Otus-DevOps-2017-11/Maksov_Infra.svg?branch=master)](https://travis-ci.org/Otus-DevOps-2017-11/Maksov_Infra)
 # Maksov_Infra
 ## Домашнее задание 05
 ## Способ подключения к серверу internalhost в одну команду
