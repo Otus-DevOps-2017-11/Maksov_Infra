@@ -1,17 +1,19 @@
-GIT_DIR=~/build/Otus-DevOps-2017-11/Maksov_Infra
+GIT_DIR=/home/travis/build/Otus-DevOps-2017-11/Maksov_Infra
 terraform_vars = ${GIT_DIR}/terraform/terraform.tfvars.example
+packer_vars = ${GIT_DIR}/packer/variables.json.examples
 .PHONY: terraform_tflint terraform_validate packer_validate ansible_lint
 
 default: test
 
 packer_validate:
 	cd ${GIT_DIR}/packer
-	find . -type f -name "*.json" -exec packer validate {} -var-file=~/packer/variables.json.example
-
+	packer validate -var-file=${GIT_DIR}/packer/variables.json.examples app.json
+	packer validate -var-file=${GIT_DIR}/packer/variables.json.examples db.json
+	packer validate -var-file=${GIT_DIR}/packer/variables.json.examples immutable.json
+	packer validate -var-file=${GIT_DIR}/packer/variables.json.examples ubuntu16.json
 terraform_validate:
 	cd ${GIT_DIR}/terraform/stage && terraform init && terraform validate --var-file=${terraform_vars}
 	cd ${GIT_DIR}/terraform/prod && terraform init && terraform validate --var-file=${terraform_vars}
-
 terraform_tflint:
 	cd ${GIT_DIR}/terraform/stage && tflint --var-file=${terraform_vars} --error-with-issues
 	cd ${GIT_DIR}/terraform/prod &&  tflint --var-file=${terraform_vars} --error-with-issues
