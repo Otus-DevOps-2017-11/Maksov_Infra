@@ -17,3 +17,4 @@ before_install:
 script:
   - make terraform_validate
   - make packer_validate
+  - make ansible_lint
