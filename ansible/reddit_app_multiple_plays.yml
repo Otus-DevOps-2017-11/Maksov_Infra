@@ -5,15 +5,15 @@
   vars:
     mongo_bind_ip: 0.0.0.0
   tasks:
-    - name: Change mongo config file
-      template:
-        src: templates/mongod.conf.j2
-        dest: /etc/mongod.conf
-        mode: 0644
-      notify: restart mongod
+   - name: Change mongo config file
+     template:
+       src: templates/mongod.conf.j2
+       dest: /etc/mongod.conf
+       mode: 0644
+     notify: restart mongod
   handlers:
-    - name: restart mongod
-      service: name=mongod state=restarted
+   - name: restart mongod
+     service: name=mongod state=restarted
 - name: Configure app host
   hosts: app
   tags: app-tag
@@ -21,11 +21,11 @@
   vars:
     db_host: 10.132.0.6
   tasks:
-     - name: Add unit file for Puma
-       copy:
-        src: files/puma.service
-        dest: /etc/systemd/system/puma.service
-        notify: reload puma
+    - name: Add unit file for Puma
+      copy:
+       src: files/puma.service
+       dest: /etc/systemd/system/puma.service
+       notify: reload puma
     - name: Add config for DB connection
       template:
         src: templates/db_config.j2
