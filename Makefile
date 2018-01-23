@@ -6,13 +6,14 @@ packer_vars = ${GIT_DIR}/packer/variables.json.examples
 default: test
 
 packer_validate:
-	cd ${GIT_DIR}/packer
+	cd ${GIT_DIR}/packer && packer validate -var-file=${GIT_DIR}/packer/variables.json.examples app.json
 	pwd
-	ls -lha
-	packer validate -var-file=${GIT_DIR}/packer/variables.json.examples app.json
-	packer validate -var-file=${GIT_DIR}/packer/variables.json.examples db.json
-	packer validate -var-file=${GIT_DIR}/packer/variables.json.examples immutable.json
-	packer validate -var-file=${GIT_DIR}/packer/variables.json.examples ubuntu16.json
+	cd ${GIT_DIR}/packer && packer validate -var-file=${GIT_DIR}/packer/variables.json.examples db.json
+	pwd
+	cd ${GIT_DIR}/packer && packer validate -var-file=${GIT_DIR}/packer/variables.json.examples immutable.json
+	pwd
+	cd ${GIT_DIR}/packer && packer validate -var-file=${GIT_DIR}/packer/variables.json.examples ubuntu16.json
+	pwd
 terraform_validate:
 	cd ${GIT_DIR}/terraform/stage && terraform init && terraform validate --var-file=${terraform_vars}
 	cd ${GIT_DIR}/terraform/prod && terraform init && terraform validate --var-file=${terraform_vars}
