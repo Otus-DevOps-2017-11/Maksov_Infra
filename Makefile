@@ -1,4 +1,4 @@
-GIT_DIR=~/bin
+GIT_DIR=~/build/Otus-DevOps-2017-11/Maksov_Infra
 terraform_vars = ${GIT_DIR}/terraform/terraform.tfvars.example
 .PHONY: terraform_tflint terraform_validate packer_validate ansible_lint
 
