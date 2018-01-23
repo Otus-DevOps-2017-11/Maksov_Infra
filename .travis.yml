@@ -13,3 +13,4 @@ before_install:
   - export PATH=$PATH:`pwd`/ansible-lint/bin
   - pwd
 script:
+  - make terraform_validate
