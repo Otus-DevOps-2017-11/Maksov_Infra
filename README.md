@@ -526,4 +526,6 @@ failed: [reddit-app] (item={'value': [u'listen 80', u'server_name "reddit"', u'l
 terraform_validate - проходит успешно
 terraform_tflint - не получилось завести. travis не видел бинарник и не мог его выполнить. Добавлял в локалы, экспортом в переменные окрудения соответствующей папки делал, другую версию tflint выполнял и т..д.
 packer_validate - проходит успешно
-ansible_lint - проходит. но на ошибки travis не реагирует. 
+ansible_lint - проходит. но на ошибки travis не реагирует.
+
+Настройка travis - build master на pull request
