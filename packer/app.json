@@ -29,8 +29,8 @@
 
     "provisioners": [
         {
-            "type": "ansible",
-            "playbook_file": "scripts/packer_app.yml"
+            "type": "shell",
+            "script": "scripts/install_ruby.sh"
           }
     ]
 }
