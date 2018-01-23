@@ -1,5 +1,7 @@
 - name: Configure MongoDB
-  hosts: db
+  vars_files:
+   - group_db_hosts.yml
+  hosts: "{{ group_db_hosts }}"
   become: true
   roles:
    - db

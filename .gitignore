@@ -6,3 +6,7 @@ packer/variables.json
 .terraform/
 ansible/account.json
 /terraform/stage2
+.gce
+.vagrant
+/ansible/*.swp
+/ansible/roles/jdauphant.nginx

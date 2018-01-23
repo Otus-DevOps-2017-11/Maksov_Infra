@@ -1,0 +1,2 @@
+group_app_hosts: tag_stage-app
+group_db_hosts: tag_stage-db

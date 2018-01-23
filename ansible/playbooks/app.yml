@@ -1,6 +1,8 @@
 - name: Configure app host
-  hosts: app
+  vars_files:
+   - group_app_hosts.yml
+  hosts: "{{ group_app_hosts }}"
   become: true
   roles:
-    - app
-    - jdauphant.nginx
+   - app
+   - jdauphant.nginx

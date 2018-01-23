@@ -1,5 +1,0 @@
----
-# handlers file for app
-  - name: reload puma
-    become: true
-    systemd: name=puma state=reloaded
