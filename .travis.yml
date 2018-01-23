@@ -11,7 +11,6 @@ before_install:
   - git clone https://github.com/willthames/ansible-lint
   - export PYTHONPATH=$PYTHONPATH:`pwd`/ansible-lint/lib
   - export PATH=$PATH:`pwd`/ansible-lint/bin
-  - make example_files
 script:
   - make terraform_validate
   - make terraform_tflint

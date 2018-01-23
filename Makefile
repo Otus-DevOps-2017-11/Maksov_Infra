@@ -1,4 +1,4 @@
-GIT_DIR=~
+GIT_DIR=~/bin
 terraform_vars = ${GIT_DIR}/terraform/terraform.tfvars.example
 .PHONY: terraform_tflint terraform_validate packer_validate ansible_lint
 
