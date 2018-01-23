@@ -28,11 +28,6 @@ description = "Path to public ssh key"
 
 }
 
-variable private_key_path {
-
-description = "Path to private ssh key"
-
-}
 
 variable source_ranges_default {
 

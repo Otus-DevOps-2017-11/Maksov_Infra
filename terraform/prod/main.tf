@@ -20,7 +20,6 @@ resource "google_compute_project_metadata" "sshkey" {
 
 module "db" {
   source          = "../modules/db"
-  private_key_path = "${var.private_key_path}"
   zone            = "${var.zone_default}"
   name_db       = "reddit-db"
   db_disk_image   = "reddit-db-base"
@@ -35,7 +34,6 @@ module "db" {
 
 module "app" {
   source          = "../modules/app"
-  private_key_path = "${var.private_key_path}"
   zone_app            = "${var.zone_default}"
   name_app = "reddit-app"
   app_disk_image  = "reddit-app-base"
