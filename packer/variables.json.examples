@@ -2,7 +2,11 @@
 #Пример указания переменных
 #project_id - ID Проекта, image_family - Семейство образов, machine_type - тип инстанса GCP, который запускается для билда
 {
-  "project_id": "infra-188217",
-  "image_family": "reddit-base",
-  "machine_type": "f1-micro"
+  "project_id": "infra-188917",
+  "image_family": "reddit-full",
+  "machine_type": "g1-small",
+  "disk_size":"10",
+  "disk_type":"pd-standard",
+  "image_description":"Reddit App Full",
+  "tags":"puma-server"
 }

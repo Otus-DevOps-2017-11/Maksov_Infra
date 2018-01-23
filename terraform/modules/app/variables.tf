@@ -31,11 +31,6 @@ variable target_tags {
 }
 
 
-variable private_key_path {
-
-  description = "Path to the private key used to connect provision to instance"
-
-}
 
 variable zone_app {
   description = "Zone"
