@@ -2,7 +2,7 @@
   hosts:
     - app
     - tag_prod-app
-    - tag_prod-stage
+    - tag_stage-app
   tasks:
     - name: Fetch the latest version of application code
       git:

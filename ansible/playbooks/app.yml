@@ -2,7 +2,7 @@
   hosts:
     - app
     - tag_prod-app
-    - tag_prod-stage
+    - tag_stage-app
   become: true
   roles:
    - app
