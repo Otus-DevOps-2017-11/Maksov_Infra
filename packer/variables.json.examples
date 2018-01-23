@@ -1,6 +1,4 @@
 
-#Пример указания переменных
-#project_id - ID Проекта, image_family - Семейство образов, machine_type - тип инстанса GCP, который запускается для билда
 {
   "project_id": "infra-188917",
   "image_family": "reddit-full",
