@@ -6,8 +6,8 @@ before_install:
   - sudo unzip -d /usr/bin/ /tmp/terraform.zip
   - terraform -v
   - wget "https://github.com/wata727/tflint/releases/download/v0.5.4/tflint_darwin_amd64.zip" -O /tmp/tflint.zip
-  - sudo unzip -d /usr/local/tflint/bin/ /tmp/tflint.zip
   - sudo mkdir -p /usr/local/tflint/bin
+  - sudo unzip -d /usr/local/tflint/bin/ /tmp/tflint.zip
   - export PATH=/usr/local/tflint/bin:$PATH
   - tflint -v
   - wget "https://releases.hashicorp.com/packer/1.1.3/packer_1.1.3_linux_amd64.zip" -O /tmp/packer.zip
