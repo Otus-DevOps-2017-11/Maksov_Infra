@@ -4,13 +4,13 @@ provider "google" {
   region  = "${var.region}"
 }
 
-terraform {
-  backend "gcs" {
-    bucket = "maksov"
-    path = "/terraform/terraform.tfstate"
-    project = "infra-188917"
-  }
-}
+// terraform {
+//  backend "gcs" {
+//    bucket = "maksov"
+//    path = "/terraform/terraform.tfstate"
+//    project = "infra-188917"
+//  }
+//}
 
 resource "google_compute_project_metadata" "sshkey" {
   metadata {

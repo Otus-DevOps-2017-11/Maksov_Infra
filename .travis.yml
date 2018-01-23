@@ -14,4 +14,4 @@ before_install:
   - make example_files
 script:
   - make terraform_validate
-  - make terraform_flint
+  - make terraform_tflint
