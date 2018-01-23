@@ -21,5 +21,4 @@ terraform_tflint:
 	cd ${GIT_DIR}/terraform/stage && tflint --var-file=${terraform_vars} --error-with-issues
 	cd ${GIT_DIR}/terraform/prod &&  tflint --var-file=${terraform_vars} --error-with-issues
 ansible_lint:
-	cd $(GIT_DIR)/ansible
-	find . -type f -name "*.yml" -exec ansible-lint {} -x ANSIBLE0002 \;
+	cd $(GIT_DIR)/ansible && find . -type f -name "*.yml" -exec ansible-lint {} -x ANSIBLE0002 \;
