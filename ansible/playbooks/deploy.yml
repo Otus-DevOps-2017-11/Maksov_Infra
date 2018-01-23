@@ -1,7 +1,8 @@
 - name: Deploy App
-  vars_files:
-   - group_app_hosts.yml
-  hosts: "{{ group_app_hosts }}"
+  hosts:
+    - app
+    - tag_prod-app
+    - tag_prod-stage
   tasks:
     - name: Fetch the latest version of application code
       git:

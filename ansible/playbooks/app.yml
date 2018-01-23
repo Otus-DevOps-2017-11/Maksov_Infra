@@ -1,7 +1,8 @@
 - name: Configure app host
-  vars_files:
-   - group_app_hosts.yml
-  hosts: "{{ group_app_hosts }}"
+  hosts:
+    - app
+    - tag_prod-app
+    - tag_prod-stage
   become: true
   roles:
    - app

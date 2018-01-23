@@ -1,7 +1,8 @@
 - name: Configure MongoDB
-  vars_files:
-   - group_db_hosts.yml
-  hosts: "{{ group_db_hosts }}"
+  hosts:
+    - app
+    - tag_prod-app
+    - tag_prod-stage
   become: true
   roles:
    - db

@@ -3,11 +3,7 @@ output "db_external_ip" {
 }
 
 output "db_internal_ip" {
-<<<<<<< HEAD
+
   value = "${google_compute_instance.db.network_interface.0.address}"
-=======
 
-   value = "${google_compute_instance.db.network_interface.0.address}"
-
->>>>>>> master
 }
