@@ -30,9 +30,12 @@ variable source_tags_db {
   default     = []
 }
 
+<<<<<<< HEAD
 variable private_key_path {
   description = "Path to the private key used to connect provision to instance"
 }
+=======
+>>>>>>> master
 
 variable zone {
   description = "Zone"

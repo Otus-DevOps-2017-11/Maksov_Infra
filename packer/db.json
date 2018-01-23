@@ -14,7 +14,6 @@
         {
             "type": "googlecompute",
             "project_id": "{{user `project_id`}}",
-	          "account_file": "account.json",
             "machine_type": "{{user `machine_type`}}",
             "zone": "{{user `zone`}}",
             "image_name": "reddit-db-base-{{isotime `20060102-150405`}}",
@@ -30,8 +29,12 @@
     "provisioners": [
         {
             "type": "shell",
+<<<<<<< HEAD
             "scripts": "scripts/install_mongodb.sh",
             "execute_command": "sudo {{.Path}}"
+=======
+            "script": "scripts/install_mongodb.sh"
+>>>>>>> master
         }
     ]
 }

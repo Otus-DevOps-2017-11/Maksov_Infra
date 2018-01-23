@@ -30,8 +30,7 @@
     "provisioners": [
         {
             "type": "shell",
-            "scripts": "scripts/install_ruby.sh",
-            "execute_command": "sudo {{.Path}}"
+            "script": "scripts/install_ruby.sh"
           }
     ]
 }
