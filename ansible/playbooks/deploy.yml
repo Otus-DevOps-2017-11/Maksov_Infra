@@ -1,19 +1,20 @@
 - name: Deploy App
   hosts:
-    - app
-    - tag_prod-app
-    - tag_stage-app
+   - app
+   - tag_prod-app
+   - tag_stage-app
+  become: true
   tasks:
     - name: Fetch the latest version of application code
       git:
         repo: 'https://github.com/Otus-DevOps-2017-11/reddit.git'
-        dest: /home/Maksim/reddit
+        dest: "/home/{{ deploy_user }}/reddit"
         version: monolith
       notify: restart puma
     - name: bundle install
       bundler:
         state: present
-        chdir: /home/Maksim/reddit
+        chdir: "/home/{{ deploy_user }}/reddit"
   handlers:
    - name: restart puma
      become: true
