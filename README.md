@@ -491,3 +491,42 @@ reddit-db | SUCCESS => {
 
 - http://docs.ansible.com/ansible/latest/intro_dynamic_inventory.html
 - https://www.jeffgeerling.com/blog/creating-custom-dynamic-inventories-ansible
+
+## Домашнее задание № 12 Ansible: работа с ролями и окружениями
+Ход выполнения
+- создание ролей app и db и их применение
+-  создание окружений stage
+- работа с коммьюнити ролями (jdauphant.nginx)
+
+При работе возникла ошибка. Думал. Думал. В итоге оказалось, что файлы то при чеке не создаются, чтоб создать линки. При непосредственном выполнении все ок.
+```
+failed: [reddit-app] (item={'value': [u'listen 80', u'server_name "reddit"', u'location / { http://127.0.0.1:9292; }'], 'key': u'default'}) => {"changed": false, "item": {"key": "default", "value": ["listen 80", "server_name \"reddit\"", "location / { http://127.0.0.1:9292; }"]}, "msg": "src file does not exist, use \"force=yes\" if you really want to create the link: /etc/nginx/sites-available/default.conf", "path": "/etc/nginx/sites-enabled/default.conf", "src": "/etc/nginx/sites-available/default.conf", "state": "absent"}
+```
++ ошибка отсутсвия python-apt. Просто вручную установил на app host.
+
+- Задание со * Динамический инвентори для окружений
+
+Используется GCE Dynamic Inventory
+
+Создан скрипт установки параметров в зависимости от окружения - ansible\set_env.sh
+
+./set_env.sh stage | prod - указываем окружение. скрипт применяет настройки в зависимости от заданного окружения (создает ansible.cfg с ссылкой на dynamic inventory в необходимом окружении, создает )
+
+Также для проверки задал для инстансов теги prod_app, prod_db, stage_db, stage_app. Dynamic Inventory формирует группы по тэгам следующим образом tag_prod_app, tag_stage_app и т.д.
+
+Также в ролях group_vars поменял в соответствии dynamic inventory имена файлов по группам.
+
+ В итоге возникла проблема запускать playbook на группы хостов в зависимости от окружений. Обратился к best practicies. А вся идея уже описана про тэги и остально=) Решил подцеплять файлик с именованием хостов. В данном случае необходимо было продумать этот момент. В главный site.xml не получилось включать файл с переменными. Но подцепляю в сценариях app.yml, db.yml, deploy.yml файл с переменными.
+
+- Задание со ** Travis CI
+
+Не такое простое оказалось для меня. Создан Makefile для прогона тестов.
+
+тесты
+
+terraform_validate - проходит успешно
+terraform_tflint - не получилось завести. travis не видел бинарник и не мог его выполнить. Добавлял в локалы, экспортом в переменные окрудения соответствующей папки делал, другую версию tflint выполнял и т..д.
+packer_validate - проходит успешно
+ansible_lint - проходит. но на ошибки travis не реагирует.
+
+Настройка travis - build master на pull request

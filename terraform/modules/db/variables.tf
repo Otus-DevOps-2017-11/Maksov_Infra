@@ -8,7 +8,7 @@ variable machine_type_db {
 
 variable tags_db {
   description = "DB instance's tags"
-  default = []
+  default     = []
 }
 
 variable name_firewall_db {
@@ -16,20 +16,18 @@ variable name_firewall_db {
 }
 
 variable firewall_db_ports {
-
   description = "Firewall access port to DB"
-  default = []
-
+  default     = []
 }
 
 variable target_tags_db {
   description = "Target tags db"
-  default = []
+  default     = []
 }
 
 variable source_tags_db {
   description = "Source tags for access of instances to the DB"
-  default =  []
+  default     = []
 }
 
 

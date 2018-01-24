@@ -1,0 +1,8 @@
+- name: Configure MongoDB
+  hosts:
+    - app
+    - tag_tage-db
+    - tag_prod-db
+  become: true
+  roles:
+   - db

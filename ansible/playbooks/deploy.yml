@@ -1,5 +1,8 @@
 - name: Deploy App
-  hosts: app
+  hosts:
+    - app
+    - tag_prod-app
+    - tag_stage-app
   tasks:
     - name: Fetch the latest version of application code
       git:

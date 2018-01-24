@@ -1,0 +1,9 @@
+- name: Configure app host
+  hosts:
+    - app
+    - tag_prod-app
+    - tag_stage-app
+  become: true
+  roles:
+   - app
+   - jdauphant.nginx

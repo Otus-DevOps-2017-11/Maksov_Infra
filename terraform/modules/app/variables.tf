@@ -8,7 +8,7 @@ variable machine_type_app {
 
 variable tags_app {
   description = "instance's tags"
-  default = []
+  default     = []
 }
 
 variable name_firewall_app {
@@ -22,7 +22,7 @@ variable source_ranges {
 
 variable ports_app {
   description = "Access port of application"
-  default = []
+  default     = []
 }
 
 variable target_tags {
@@ -31,19 +31,11 @@ variable target_tags {
 }
 
 
-
 variable zone_app {
   description = "Zone"
-
 }
 
 variable app_disk_image {
   description = "Disk image for reddit app"
   default     = "reddit-app-base"
-}
-
-variable ip_db {
-
-  description = "DB ip address"
-
 }

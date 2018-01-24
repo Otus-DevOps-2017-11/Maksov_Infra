@@ -12,6 +12,7 @@ provider "google" {
 //  }
 //}
 
+
 resource "google_compute_project_metadata" "sshkey" {
   metadata {
     ssh-keys = "${var.user_ssh}:${file(var.public_key_path)}"
@@ -19,6 +20,7 @@ resource "google_compute_project_metadata" "sshkey" {
 }
 
 module "db" {
+
   source          = "../modules/db"
   zone            = "${var.zone_default}"
   name_db       = "reddit-db"
@@ -43,7 +45,7 @@ module "app" {
   ports_app = ["9292"]
   source_ranges = "${var.source_ranges_default}"
   target_tags = ["reddit-app"]
-  ip_db  = "${module.db.db_external_ip}"
+
 }
 
 module "vpc" {

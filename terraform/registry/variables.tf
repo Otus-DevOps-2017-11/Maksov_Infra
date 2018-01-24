@@ -3,15 +3,11 @@ variable project {
 }
 
 variable zone_default {
-
   description = "Zone"
-  default = "europe-west1-d"
-
+  default     = "europe-west1-d"
 }
 
 variable region {
-
-  description  = "Region"
-  default = "europe-west1"
-
+  description = "Region"
+  default     = "europe-west1"
 }
