@@ -5,11 +5,11 @@ packer/variables.json
 *.tfvars
 .terraform/
 ansible/account.json
-/terraform/stage2
+terraform/stage2
 .gce
 .vagrant
-/ansible/*.swp
-/ansible/roles/jdauphant.nginx
+ansible/*.swp
+ansible/roles/jdauphant.nginx
 *.retry
 account.json
 .molecule
