@@ -527,3 +527,23 @@ packer_validate - проходит успешно
 ansible_lint - проходит. но на ошибки travis не реагирует.
 
 Настройка travis - build master на pull request
+
+## Домашнее задание № 13 Разработка и тестирование Ansible ролей и плейбуков
+
+ Ход работы
+
+ - Локальная разработка с Vagrant
+
+Так как окружение установлено в WSL необходимо было настроить параметры окружения
+```
+export VAGRANT_WSL_ENABLE_WINDOWS_ACCESS="1"
+export VAGRANT_WSL_WINDOWS_ACCESS_USER_HOME_PATH="/mnt/c/VagrantDir/"
+```
+
++ в настройках провайдера добавил v.customize ["modifyvm", :id, "--uartmode1", "disconnected"] для отключения COM порта, который пишет в файл в WSL
+
+Задание со звездочкой * Настройка nginx
+
+Применил рекомендуюмую практику. В папке, шде лежит playbook добавил папку с переменными для группы.
+
+ - Тестирование роли 
