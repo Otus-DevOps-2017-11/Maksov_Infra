@@ -554,3 +554,8 @@ platforms:
  raw_config_args:
   - customize ["modifyvm", :id, "--uartmode1", "disconnected"]
   
+Для тестирования прослушивания порта используется class testinfra.modules.socket.Socket
+
+Для packer в playbooks packer_app.yml, packer_db.yml добавил путь до роли и указал теги. P.S. То что в packer можно указать тоже видел.
+
+

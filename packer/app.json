@@ -14,7 +14,6 @@
         {
             "type": "googlecompute",
             "project_id": "{{user `project_id`}}",
-            "account_file": "account.json",
             "machine_type": "{{user `machine_type`}}",
             "zone": "{{user `zone`}}",
             "image_name": "reddit-app-base-{{isotime `20060102-150405`}}",

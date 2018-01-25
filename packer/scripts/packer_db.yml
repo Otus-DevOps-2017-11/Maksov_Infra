@@ -3,4 +3,4 @@
   hosts: all
   become: true
   roles:
-   - { role: '/root/Maksov_Infra/ansible/roles/db', become: true, become_user: nobody, become_method: sudo, tags: ["install"] }
+   - { role: '/root/Maksov_Infra/ansible/roles/db', become: true, tags: ["install"] }
