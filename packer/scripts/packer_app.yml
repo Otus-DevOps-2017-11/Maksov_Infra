@@ -3,4 +3,4 @@
   hosts: all
   become: true
   role:
-   - { role: '/root/Maksov_Infra/ansible/role/app', tags: ["ruby"], become:true }
+   - { role: '/root/Maksov_Infra/ansible/role/app', tags: ["ruby"], become: true, tags: ["install"] }
