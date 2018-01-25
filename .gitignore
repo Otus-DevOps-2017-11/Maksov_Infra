@@ -16,3 +16,5 @@ account.json
 test_role
 Vagrantfile.backup
 *.yamllint 
+.cache
+ansible/roles/db/molecule/default/tests/__pycache__/test_default.cpython-27-PYTEST.pyc
