@@ -10,3 +10,9 @@ ansible/account.json
 .vagrant
 /ansible/*.swp
 /ansible/roles/jdauphant.nginx
+*.retry
+account.json
+.molecule
+test_role
+Vagrantfile.backup
+*.yamllint 

@@ -2,20 +2,5 @@
 - name: Install MongoDB 3.2
   hosts: all
   become: true
-  tasks:
-  - name: Add APT key
-    apt_key:
-      id: EA312927
-      keyserver: keyserver.ubuntu.com
-  - name: Add APT repository
-    apt_repository:
-      repo: deb [ arch=amd64,arm64 ] http://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.2 multiverse
-      state: present
-  - name: Install mongodb
-    apt:
-      name: mongodb-org
-      state: present
-  - name: Configure service
-    systemd:
-      name: mongod
-      enabled: yes
+  roles:
+   - { role: '/root/Maksov_Infra/ansible/roles/db', become: true, tags: ["install"] }
