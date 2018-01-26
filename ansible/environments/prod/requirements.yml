@@ -1,3 +1,7 @@
 ---
 - src: jdauphant.nginx
   version: v2.13
+
+- src: https://github.com/Maksov/mongodb_ansible_role
+  name: db
+  version: master
