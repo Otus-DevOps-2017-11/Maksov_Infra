@@ -546,7 +546,8 @@ export VAGRANT_WSL_WINDOWS_ACCESS_USER_HOME_PATH="/mnt/c/VagrantDir/"
 ----
 Применил рекомендуюмую практику. В папке, где лежит playbook добавил папку с переменными для группы.
 
- - Тестирование роли
+### Тестирование роли
+---
 
 Для запуска instanse в Molecule в WLS в шаблон настроек (molecule.yml) внес настройку отключения com-портов
 ```
