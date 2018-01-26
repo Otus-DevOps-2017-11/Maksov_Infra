@@ -599,7 +599,7 @@ git push
 
 Настройка в Slack стандартно как в Homework 4. 
 
-Подключение роли по документации
+Добавленме роли в requirements.yml
 ```
 requirements.yml <
 ---
@@ -610,7 +610,7 @@ requirements.yml <
   name: db
   version: master
 ```
-Подключение
+Подклюение
 ```
 ansible-galaxy install -r environments/stage/requirements.yml
 ```
