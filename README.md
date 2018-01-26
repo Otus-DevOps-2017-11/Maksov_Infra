@@ -549,11 +549,11 @@ export VAGRANT_WSL_WINDOWS_ACCESS_USER_HOME_PATH="/mnt/c/VagrantDir/"
  - Тестирование роли
 
 Для запуска instanse в Molecule в WLS в шаблон настроек (molecule.yml) внес настройку отключения com-портов
-
+```
 platforms:
  raw_config_args:
   - customize ["modifyvm", :id, "--uartmode1", "disconnected"]
-  
+```  
 Для тестирования прослушивания порта используется class testinfra.modules.socket.Socket
 
 Для packer в playbooks packer_app.yml, packer_db.yml добавил путь до роли и указал теги. P.S. То что в packer можно указать тоже видел.
@@ -597,6 +597,22 @@ git push
 Прописал шаги сценария molecule.yml. В итоге тест запускаю molecule test
 
 Настройка в Slack стандартно как в Homework 4. 
+
+Подключение роли по документации
+```
+requirements.yml <
+---
+- src: jdauphant.nginx
+  version: v2.13
+
+- src: https://github.com/Maksov/mongodb_ansible_role
+  name: db
+  version: master
+```
+Подключение
+```
+ansible-galaxy install -r environments/stage/requirements.yml
+```
 
 
 
