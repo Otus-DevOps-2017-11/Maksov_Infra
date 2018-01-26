@@ -532,17 +532,17 @@ ansible_lint - проходит. но на ошибки travis не реагир
 ----
  Ход работы
 
- - Локальная разработка с Vagrant
+ ### Локальная разработка с Vagrant
+---
 
 Так как окружение установлено в WSL необходимо было настроить параметры окружения
 ```
 export VAGRANT_WSL_ENABLE_WINDOWS_ACCESS="1"
 export VAGRANT_WSL_WINDOWS_ACCESS_USER_HOME_PATH="/mnt/c/VagrantDir/"
 ```
+В настройках провайдера добавил v.customize ["modifyvm", :id, "--uartmode1", "disconnected"] для отключения COM порта, который пишет в файл в WSL
 
-+ в настройках провайдера добавил v.customize ["modifyvm", :id, "--uartmode1", "disconnected"] для отключения COM порта, который пишет в файл в WSL
-
-Задание со звездочкой * Настройка nginx
+#### Задание со звездочкой * Настройка nginx
 ----
 Применил рекомендуюмую практику. В папке, где лежит playbook добавил папку с переменными для группы.
 
@@ -558,7 +558,7 @@ platforms:
 
 Для packer в playbooks packer_app.yml, packer_db.yml добавил путь до роли и указал теги. P.S. То что в packer можно указать тоже видел.
 
-Задание со * Тестирование роли в Travis на Google Cloud Platform и Настройка Slack
+#### Задание со * Тестирование роли в Travis на Google Cloud Platform и Настройка Slack
 ------
 
 [MongoDB Ansible Role](https://github.com/Maksov/mongodb_ansible_role)
