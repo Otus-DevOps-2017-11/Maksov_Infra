@@ -590,7 +590,7 @@ git push
 Инициализация с драйвером GCE
 
 ```
- molecule init scenario --scenario-name default -r mongodb_ansible_role -d vagrant 
+ molecule init scenario --scenario-name default -r mongodb_ansible_role -d gce 
 ```
 
 Начал настраивать в репозиторий. Пошли ошибки. Решил прогнать на локальной машине с настройкой на GCE. Также дебажил с ключом --debug
@@ -599,7 +599,7 @@ git push
 
 Настройка в Slack стандартно как в Homework 4. 
 
-Добавленме роли в requirements.yml
+Добавление роли в requirements.yml
 ```
 requirements.yml <
 ---
@@ -610,7 +610,7 @@ requirements.yml <
   name: db
   version: master
 ```
-Подклюение
+Подключение
 ```
 ansible-galaxy install -r environments/stage/requirements.yml
 ```
