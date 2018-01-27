@@ -590,7 +590,7 @@ git push
 Инициализация с драйвером GCE
 
 ```
- molecule init scenario --scenario-name mongodb_ansible_role -r db -d vagrant 
+ molecule init scenario --scenario-name default -r mongodb_ansible_role -d vagrant 
 ```
 
 Начал настраивать в репозиторий. Пошли ошибки. Решил прогнать на локальной машине с настройкой на GCE. Также дебажил с ключом --debug
