@@ -544,7 +544,7 @@ export VAGRANT_WSL_WINDOWS_ACCESS_USER_HOME_PATH="/mnt/c/VagrantDir/"
 
 #### Задание со звездочкой * Настройка nginx
 ----
-Применил рекомендуюмую практику. В папке, где лежит playbook добавил папку с переменными для группы.
+Применил рекомендуюмую практику. В папке, где лежит playbook добавил папку с переменными для группы [ansible/playbooks/group_vars](https://github.com/Otus-DevOps-2017-11/Maksov_Infra/tree/ansible-4/ansible/playbooks/group_vars).
 
 ### Тестирование роли
 ---
