@@ -29,9 +29,12 @@
 
     "provisioners": [
         {
-            "type": "shell",
-            "scripts": "scripts/install_mongodb.sh",
-            "execute_command": "sudo {{.Path}}"
+            "type": "ansible",
+            "playbook_file": "scripts/packer_db.yml",
+            "extra_arguments": ["--tags","install"],
+            "ansible_env_vars": [
+                "ANSIBLE_ROLES_PATH=ansible/roles"
+            ]
 
         }
     ]

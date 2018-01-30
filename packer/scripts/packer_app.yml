@@ -2,16 +2,5 @@
 - name: Ryby and Bundler
   hosts: all
   become: true
-  vars:
-    app_list:
-      - - ruby-bundler
-        - ruby-full
-        - build-essential
-  tasks:
-  - name: APT Update
-    apt:
-      update_cache: yes
-  - name: Install cycle apt
-    apt: "name={{ item }} state=present"
-    with_items:
-      - "{{ app_list }}"
+  role:
+   - app

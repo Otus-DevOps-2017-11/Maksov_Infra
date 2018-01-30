@@ -527,3 +527,93 @@ packer_validate - проходит успешно
 ansible_lint - проходит. но на ошибки travis не реагирует.
 
 Настройка travis - build master на pull request
+
+## Домашнее задание № 13 Разработка и тестирование Ansible ролей и плейбуков
+----
+ Ход работы
+
+ ### Локальная разработка с Vagrant
+---
+
+Так как окружение установлено в WSL необходимо было настроить параметры окружения
+```
+export VAGRANT_WSL_ENABLE_WINDOWS_ACCESS="1"
+export VAGRANT_WSL_WINDOWS_ACCESS_USER_HOME_PATH="/mnt/c/VagrantDir/"
+```
+В настройках провайдера добавил v.customize ["modifyvm", :id, "--uartmode1", "disconnected"] для отключения COM порта, который пишет в файл в WSL
+
+#### Задание со звездочкой * Настройка nginx
+----
+Применил рекомендуюмую практику. В папке, где лежит playbook добавил папку с переменными для группы [ansible/playbooks/group_vars](https://github.com/Otus-DevOps-2017-11/Maksov_Infra/tree/ansible-4/ansible/playbooks/group_vars).
+
+### Тестирование роли
+---
+
+Для запуска instanse в Molecule в WLS в шаблон настроек (molecule.yml) внес настройку отключения com-портов
+```
+platforms:
+ raw_config_args:
+  - customize ["modifyvm", :id, "--uartmode1", "disconnected"]
+```  
+Для тестирования прослушивания порта используется class testinfra.modules.socket.Socket
+
+Для packer в playbooks packer_app.yml, packer_db.yml добавил путь до роли и указал теги. P.S. То что в packer можно указать тоже видел.
+
+#### Задание со * Тестирование роли в Travis на Google Cloud Platform и Настройка Slack
+------
+
+[MongoDB Ansible Role](https://github.com/Maksov/mongodb_ansible_role)
+
+[![Build Status](https://travis-ci.org/Maksov/mongodb_ansible_role.svg?branch=master)](https://travis-ci.org/Maksov/mongodb_ansible_role)
+
+[Slack Notification](https://devops-team-otus.slack.com/messages/C8BETL081/apps/B8ZHPHZE1)
+
+Шаги по настройке Travis (Инфа для себя):
+```
+ssh-keygen -t rsa -f google_compute_engine -C 'travis' -q -N ''
+# Создаем ключ в метадате проекта infra в GCP
+# Должен быть предварительно создан сервисный аккаунт и скачаны креды (credentials.json)
+# Должна быть предварительно подключена данная репа в тревисе
+travis encrypt GCE_SERVICE_ACCOUNT_EMAIL='ci-test@infra-179032.iam.gserviceaccount.com' --add
+travis encrypt GCE_CREDENTIALS_FILE="$(pwd)/credentials.json" --add
+travis encrypt GCE_PROJECT_ID='infra-179032' --add
+# шифруем файлы
+tar cvf secrets.tar credentials.json google_compute_engine
+travis login
+travis encrypt-file secrets.tar --add
+# пушим и проверяем изменения
+git commit -m 'Added Travis integration'
+git push
+```
+После переноса в новом репозитории
+
+Инициализация с драйвером GCE
+
+```
+ molecule init scenario --scenario-name default -r mongodb_ansible_role -d gce 
+```
+
+Начал настраивать в репозиторий. Пошли ошибки. Решил прогнать на локальной машине с настройкой на GCE. Также дебажил с ключом --debug
+
+Прописал шаги сценария molecule.yml. В итоге тест запускаю molecule test
+
+Настройка в Slack стандартно как в Homework 4. 
+
+Добавление роли в requirements.yml
+```
+requirements.yml <
+---
+- src: jdauphant.nginx
+  version: v2.13
+
+- src: https://github.com/Maksov/mongodb_ansible_role
+  name: db
+  version: master
+```
+Подключение
+```
+ansible-galaxy install -r environments/stage/requirements.yml
+```
+
+
+
