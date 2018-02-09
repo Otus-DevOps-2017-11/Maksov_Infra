@@ -1,6 +1,7 @@
 language: bash
-only:
-  - master
+branches:
+  only:
+    - master
 python:
   - "3.6"
 before_install:
